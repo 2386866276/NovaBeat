@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material 3 基础色板（动态主题 fallback） -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- 动态主题种子色 -->
+    <color name="colorPrimary">@color/purple_500</color>
+    <color name="colorPrimaryVariant">@color/purple_700</color>
+    <color name="colorOnPrimary">@color/white</color>
+    <color name="colorSecondary">@color/teal_700</color>
+    <color name="colorOnSecondary">@color/white</color>
+    <color name="colorError">#FFB00020</color>
+    <color name="colorOnError">@color/white</color>
+    <color name="colorSurface">@color/white</color>
+    <color name="colorOnSurface">@color/black</color>
+    <color name="colorOutline">#FF757575</color>
+    <color name="colorOutlineVariant">#FFE0E0E0</color>
+    <color name="colorPrimaryContainer">#FFEDE7F6</color>
+    
+    <!-- 闪屏颜色 -->
+    <color name="splash_background">#FF1A237E</color>
+    <color name="splash_text">#FFFFFFFF</color>
+    <color name="splash_text_secondary">#B3FFFFFF</color>
+</resources>

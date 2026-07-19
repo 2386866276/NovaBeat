@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:text="均衡器"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipPresets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="默认"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipPop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="流行"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipRock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="摇滚"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipClassical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="古典"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipElectronic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="电子"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipJazz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="爵士"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="8dp">
+
+            <LinearLayout android:orientation="vertical" android:layout_width="40dp" android:layout_height="wrap_content" android:gravity="center">
+                <SeekBar android:id="@+id/eqBand0" android:layout_width="match_parent" android:layout_height="180dp" android:rotation="270" android:max="100"/>
+                <TextView android:id="@+id/eqVal0" android:text="0.0 dB" android:textSize="10sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:layout_width="40dp" android:layout_height="wrap_content" android:gravity="center">
+                <SeekBar android:id="@+id/eqBand1" android:layout_width="match_parent" android:layout_height="180dp" android:rotation="270" android:max="100"/>
+                <TextView android:id="@+id/eqVal1" android:text="0.0 dB" android:textSize="10sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:layout_width="40dp" android:layout_height="wrap_content" android:gravity="center">
+                <SeekBar android:id="@+id/eqBand2" android:layout_width="match_parent" android:layout_height="180dp" android:rotation="270" android:max="100"/>
+                <TextView android:id="@+id/eqVal2" android:text="0.0 dB" android:textSize="10sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:layout_width="40dp" android:layout_height="wrap_content" android:gravity="center">
+                <SeekBar android:id="@+id/eqBand3" android:layout_width="match_parent" android:layout_height="180dp" android:rotation="270" android:max="100"/>
+                <TextView android:id="@+id/eqVal3" android:text="0.0 dB" android:textSize="10sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:layout_width="40dp" android:layout_height="wrap_content" android:gravity="center">
+                <SeekBar android:id="@+id/eqBand4" android:layout_width="match_parent" android:layout_height="180dp" android:rotation="270" android:max="100"/>
+                <TextView android:id="@+id/eqVal4" android:text="0.0 dB" android:textSize="10sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:layout_width="40dp" android:layout_height="wrap_content" android:gravity="center">
+                <SeekBar android:id="@+id/eqBand5" android:layout_width="match_parent" android:layout_height="180dp" android:rotation="270" android:max="100"/>
+                <TextView android:id="@+id/eqVal5" android:text="0.0 dB" android:textSize="10sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:layout_width="40dp" android:layout_height="wrap_content" android:gravity="center">
+                <SeekBar android:id="@+id/eqBand6" android:layout_width="match_parent" android:layout_height="180dp" android:rotation="270" android:max="100"/>
+                <TextView android:id="@+id/eqVal6" android:text="0.0 dB" android:textSize="10sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:layout_width="40dp" android:layout_height="wrap_content" android:gravity="center">
+                <SeekBar android:id="@+id/eqBand7" android:layout_width="match_parent" android:layout_height="180dp" android:rotation="270" android:max="100"/>
+                <TextView android:id="@+id/eqVal7" android:text="0.0 dB" android:textSize="10sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:layout_width="40dp" android:layout_height="wrap_content" android:gravity="center">
+                <SeekBar android:id="@+id/eqBand8" android:layout_width="match_parent" android:layout_height="180dp" android:rotation="270" android:max="100"/>
+                <TextView android:id="@+id/eqVal8" android:text="0.0 dB" android:textSize="10sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:layout_width="40dp" android:layout_height="wrap_content" android:gravity="center">
+                <SeekBar android:id="@+id/eqBand9" android:layout_width="match_parent" android:layout_height="180dp" android:rotation="270" android:max="100"/>
+                <TextView android:id="@+id/eqVal9" android:text="0.0 dB" android:textSize="10sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnResetEq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="重置"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        app:icon="@drawable/ic_refresh"/>
+
+</LinearLayout>

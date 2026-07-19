@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">NovaBeat</string>
+    <string name="player">播放器</string>
+    <string name="library">音乐库</string>
+    <string name="search">搜索</string>
+    <string name="equalizer">均衡器</string>
+    <string name="prev">上一首</string>
+    <string name="next">下一首</string>
+    <string name="play">播放</string>
+    <string name="pause">暂停</string>
+    <string name="now_playing">正在播放</string>
+    <string name="search_hint">搜索歌曲、艺术家</string>
+    <string name="eq_reset">重置均衡器</string>
+    <string name="searching">搜索中</string>
+</resources>
