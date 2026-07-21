@@ -11,9 +11,9 @@ android {
     defaultConfig {
         applicationId = "com.novabeat.music"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
-        versionName = "1.0"
+        versionName = "26.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -37,6 +37,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.constraintlayout)
     // Lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)
     // Coroutines
@@ -48,7 +49,6 @@ dependencies {
     implementation(libs.exoplayer.ui)
     // Glide
     implementation(libs.glide)
-    annotationProcessor(libs.glide)
     // Gson
     implementation(libs.gson)
 }

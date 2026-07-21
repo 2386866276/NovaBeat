@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarAbout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="关于软件"
+            app:titleCentered="true"
+            app:navigationIcon="@drawable/ic_back" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <ImageView
+                android:id="@+id/ivAboutLogo"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_gravity="center"
+                android:contentDescription="App Logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NovaBeat"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp" />
+
+            <TextView
+                android:id="@+id/tvAboutVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="版本 26.1.0"
+                android:textSize="14sp"
+                android:textColor="?android:attr/textColorSecondary"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="应用简介"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="NovaBeat 是一款功能强大的 Android 音乐播放器，支持多音源搜索与播放，包括网易云音乐、哔哩哔哩、QQ音乐、酷我音乐、酷狗音乐、汽水音乐、Spotify、YouTube Music 八大音源。内置均衡器、音频特效、歌词显示、波浪进度条等丰富功能。"
+                        android:textSize="13sp"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="功能特性"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="• 八大音源搜索（网易云/B站/QQ音乐/酷我/酷狗/汽水/Spotify/YouTube Music）\n• 多平台账号登录解锁 VIP 歌曲\n• 10 频段均衡器 + 6 种音频特效\n• 歌词显示（5 种动画效果）\n• 波浪进度条可视化\n• 本地音乐扫描与播放\n• 歌曲下载与收藏\n• 播放队列管理\n• 分享功能"
+                        android:textSize="13sp"
+                        android:lineSpacingExtra="6dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="支持音源"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="12dp"
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <View
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/ic_music_note"
+                                android:backgroundTint="#C20C0C" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="网易云音乐"
+                                android:textSize="11sp"
+                                android:layout_marginTop="4dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <View
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/ic_bilibili"
+                                android:backgroundTint="#FB7299" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="哔哩哔哩"
+                                android:textSize="11sp"
+                                android:layout_marginTop="4dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <View
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/ic_music_note"
+                                android:backgroundTint="#31C27C" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="QQ音乐"
+                                android:textSize="11sp"
+                                android:layout_marginTop="4dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp"
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <View
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/ic_music_note"
+                                android:backgroundTint="#FFA500" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="酷我音乐"
+                                android:textSize="11sp"
+                                android:layout_marginTop="4dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <View
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/ic_music_note"
+                                android:backgroundTint="#2CA2F9" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="酷狗音乐"
+                                android:textSize="11sp"
+                                android:layout_marginTop="4dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <View
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/ic_music_note"
+                                android:backgroundTint="#FF0A5C" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="汽水音乐"
+                                android:textSize="11sp"
+                                android:layout_marginTop="4dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <View
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/ic_spotify"
+                                android:backgroundTint="#1DB954" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Spotify"
+                                android:textSize="11sp"
+                                android:layout_marginTop="4dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <View
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/ic_youtube_music"
+                                android:backgroundTint="#FF0000" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="YouTube Music"
+                                android:textSize="11sp"
+                                android:layout_marginTop="4dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="开发者信息"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="开发者：林映雪\n联系方式：2386866276@QQ.Com\n反馈与建议：pangfuga@gmail.com"
+                        android:textSize="13sp"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#FF6B6B"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="支持开发者"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="如果 NovaBeat 对你有帮助，欢迎请开发者喝杯咖啡。\n你的支持是我们持续更新的动力！"
+                        android:textSize="13sp"
+                        android:lineSpacingExtra="4dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp"
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:id="@+id/ivDonateWechat"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:src="@drawable/wechatpay"
+                                android:scaleType="centerCrop"
+                                android:background="@android:color/white"
+                                android:padding="4dp"
+                                android:contentDescription="微信收款码"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackgroundBorderless" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="微信收款"
+                                android:textSize="12sp"
+                                android:layout_marginTop="6dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:id="@+id/ivDonateAlipay"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:src="@drawable/alipay"
+                                android:scaleType="centerCrop"
+                                android:background="@android:color/white"
+                                android:padding="4dp"
+                                android:contentDescription="支付宝收款码"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackgroundBorderless" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="支付宝"
+                                android:textSize="12sp"
+                                android:layout_marginTop="6dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:id="@+id/ivDonateWechatAppreciation"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:src="@drawable/wechatappreciationcode"
+                                android:scaleType="centerCrop"
+                                android:background="@android:color/white"
+                                android:padding="4dp"
+                                android:contentDescription="微信赞赏码"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackgroundBorderless" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="微信赞赏"
+                                android:textSize="12sp"
+                                android:layout_marginTop="6dp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="点击二维码可放大查看"
+                        android:textSize="11sp"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:gravity="center" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="技术信息"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="开发语言：Kotlin\nUI 框架：Material Design 3\n播放器：Media3 ExoPlayer\n图片加载：Glide\n最低系统：Android 7.0 (API 24)\n目标系统：Android 15 (API 36)"
+                        android:textSize="13sp"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="免责声明"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="本应用仅供学习和个人使用，所有音源均来自第三方公开接口。应用不存储任何音乐文件，播放内容版权归原始版权方所有。请支持正版音乐，尊重创作者权益。"
+                        android:textSize="13sp"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="软件使用许可协议"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="一、授权范围\n本软件（NovaBeat）由开发者林映雪开发并免费提供给用户使用。用户有权在个人设备上安装、运行和使用本软件，但不得将本软件用于任何商业目的，包括但不限于出售、出租、捆绑销售或以任何形式牟利。\n\n二、使用限制\n用户不得对本软件进行逆向工程、反编译或反汇编，亦不得修改、改编或创建本软件的衍生作品。用户不得删除或篡改本软件中的任何版权声明、商标标识或其他权利标记。\n\n三、知识产权\n本软件的著作权、商标权及其他知识产权均归开发者林映雪所有。本软件所涉及的第三方音源接口、音乐内容及品牌标识的版权归各自权利人所有，本软件不对上述内容主张任何权利。\n\n四、免责声明\n本软件提供的所有音源均来自第三方公开接口，开发者不对音源的可用性、准确性或合法性作出任何保证。因使用本软件访问第三方音源而产生的任何法律责任，由用户自行承担。\n\n五、协议变更\n开发者保留随时修改本协议的权利。协议变更后，用户继续使用本软件即视为接受修改后的协议。如用户不同意修改内容，应立即停止使用本软件。\n\n六、法律适用\n本协议受中华人民共和国法律管辖。因本协议引起的或与之相关的任何争议，双方应首先协商解决；协商不成的，任何一方均可向开发者所在地有管辖权的人民法院提起诉讼。"
+                        android:textSize="12sp"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="隐私政策"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="一、信息收集与使用\nNovaBeat 尊重并保护用户的个人隐私。本软件不主动收集用户的个人身份信息，不包含任何数据上报、统计分析或用户追踪代码。用户在使用第三方音源登录时输入的账号凭证仅存储在本地设备，不会上传至任何服务器。\n\n二、信息存储与安全\n用户的播放记录、收藏列表、播放队列及设置等数据均保存在本地设备存储中。用户可随时通过清除应用数据或卸载应用来删除上述信息。本软件采取合理的技术措施保护本地存储的数据安全，但不对设备本身的安全性作出绝对保证。\n\n三、第三方服务\n本软件通过调用网易云音乐、哔哩哔哩、QQ音乐、酷我音乐、酷狗音乐、汽水音乐、Spotify、YouTube Music 的公开接口提供音乐搜索与播放服务。用户在使用这些服务时，相关平台可能会根据其自身的隐私政策收集用户信息，本软件对此不承担任何责任。建议用户查阅各平台的隐私政策。\n\n四、未成年人保护\n本软件不针对未成年人设计，但也不限制未成年人使用。家长或监护人应指导未成年人合理使用本软件，避免在第三方平台泄露个人信息。如发现未成年人未经授权使用本软件，开发者将配合监护人采取必要措施。\n\n五、隐私政策更新\n开发者可能根据法律法规变化或软件功能调整更新本隐私政策。更新后的政策将随软件新版本发布时生效。用户继续使用本软件即视为接受更新后的隐私政策。\n\n六、联系我们\n如对本隐私政策有任何疑问或建议，请通过以下方式联系：\n邮箱：2386866276@QQ.Com\n反馈：pangfuga@gmail.com"
+                        android:textSize="12sp"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="用户协议"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="一、协议接受\n用户在安装、使用 NovaBeat 软件时，即视为已阅读并同意本用户协议的全部条款。如用户不同意本协议的任何内容，应立即停止安装或使用本软件。\n\n二、用户行为规范\n用户在使用本软件时应遵守中华人民共和国相关法律法规，不得利用本软件从事任何违法违规活动。用户不得使用本软件侵犯他人知识产权、隐私权或其他合法权益，不得将本软件用于任何商业用途。\n\n三、音源使用说明\n本软件集成的音源均来自第三方公开接口，开发者不对音源内容的合法性、准确性及完整性负责。用户应确保在所在地区合法使用相关音源服务，因用户使用音源服务产生的任何纠纷与开发者无关。\n\n四、服务变更与终止\n开发者保留随时修改、暂停或终止本软件全部或部分功能的权利，且无需事先通知用户。开发者不因软件功能的修改、暂停或终止对用户承担任何责任。\n\n五、免责条款\n本软件以 as-is 方式提供，开发者不对软件的可用性、稳定性、准确性或适用性作出任何明示或暗示的保证。在法律允许的最大范围内，开发者不对因使用或无法使用本软件而造成的任何直接或间接损失承担责任。\n\n六、协议修改\n开发者有权随时修改本用户协议。修改后的协议将在软件更新时随附提供，用户继续使用本软件即视为接受修改后的协议。如用户不同意修改内容，应停止使用本软件并卸载。\n\n七、法律适用与争议解决\n本协议适用中华人民共和国法律。因本协议或使用本软件引起的任何争议，双方应首先通过友好协商解决；协商不成的，任何一方可向开发者所在地有管辖权的人民法院提起诉讼。\n\n八、联系方式\n开发者：林映雪\n邮箱：2386866276@QQ.Com\n反馈与建议：pangfuga@gmail.com"
+                        android:textSize="12sp"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:text="© 2024-2026 NovaBeat\nDeveloped by 林映雪"
+                android:textSize="12sp"
+                android:textColor="?android:attr/textColorSecondary"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

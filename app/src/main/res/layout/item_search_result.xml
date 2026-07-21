@@ -24,7 +24,9 @@
             android:layout_weight="2"
             android:src="@drawable/ic_music_note"
             android:scaleType="centerCrop"
-            app:cardCornerRadius="8dp"/>
+            android:clipToOutline="true"
+            android:outlineProvider="background"
+            android:background="@drawable/cover_rounded_bg"/>
 
         <LinearLayout
             android:layout_width="0dp"

@@ -1,7 +1,6 @@
 package com.novabeat.music.data.remote
 
 import android.util.Log
-import com.google.gson.Gson
 import com.novabeat.music.data.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,7 +19,6 @@ class NeteaseApiService(private val cookie: String = "") {
     companion object {
         private const val TAG = "NeteaseApi"
         private const val SECRET = "lengyu520"
-        private val gson = Gson()
         
         // 网易云官方API + 备用
         private val API_ENDPOINTS = listOf(
@@ -59,6 +57,9 @@ class NeteaseApiService(private val cookie: String = "") {
             conn.connectTimeout = 15000
             conn.readTimeout = 15000
             conn.doOutput = true
+            if (cookie.isNotBlank()) {
+                conn.setRequestProperty("Cookie", cookie)
+            }
             OutputStreamWriter(conn.outputStream).use { it.write(body) }
             val stream = if (conn.responseCode in 200..299) conn.inputStream else conn.errorStream
             BufferedReader(InputStreamReader(stream)).use { it.readText() }
@@ -84,6 +85,10 @@ class NeteaseApiService(private val cookie: String = "") {
             conn.requestMethod = "GET"
             conn.connectTimeout = 15000
             conn.readTimeout = 15000
+            if (cookie.isNotBlank()) {
+                conn.setRequestProperty("Cookie", cookie)
+            }
+            conn.setRequestProperty("Referer", "https://music.163.com")
             val stream = if (conn.responseCode in 200..299) conn.inputStream else conn.errorStream
             BufferedReader(InputStreamReader(stream)).use { it.readText() }
         }
@@ -120,7 +125,9 @@ class NeteaseApiService(private val cookie: String = "") {
                             val album = albumObj?.let {
                                 NeteaseAlbum(
                                     name = it.optString("name", ""),
-                                    picUrl = "https://p1.music.126.net/placeholder.jpg"
+                                    picUrl = it.optString("picUrl", "").ifBlank {
+                                        it.optString("img1v1Url", "")
+                                    }
                                 )
                             }
                             val duration = songObj.optInt("duration", 0)
@@ -184,6 +191,43 @@ class NeteaseApiService(private val cookie: String = "") {
 
     private fun calculateSignForMid(mid: String): String =
         md5(SECRET + mid)
+
+    // ---------- 获取专辑封面 ----------
+    suspend fun fetchAlbumCover(songId: String, cookie: String = ""): String =
+        withContext(Dispatchers.IO) {
+            try {
+                // 方式1：通过歌曲详情API获取封面
+                val resp = httpGet("https://music.163.com/api/song/detail/?ids=$songId")
+                val jsonObj = org.json.JSONObject(resp)
+                val songs = jsonObj.optJSONArray("songs")
+                if (songs != null && songs.length() > 0) {
+                    val songObj = songs.getJSONObject(0)
+                    val albumObj = songObj.optJSONObject("album")
+                    val picUrl = albumObj?.optString("picUrl", "") ?: ""
+                    if (picUrl.isNotBlank()) {
+                        Log.d(TAG, "获取到封面: ${picUrl.take(60)}")
+                        return@withContext picUrl
+                    }
+                }
+                // 方式2：通过Meting API获取封面
+                val url = URL("https://api.injahow.cn/meting/?server=netease&type=pic&id=$songId")
+                val conn = url.openConnection() as HttpURLConnection
+                conn.requestMethod = "GET"
+                conn.connectTimeout = 10000
+                conn.readTimeout = 10000
+                conn.instanceFollowRedirects = false
+                val location = conn.getHeaderField("Location")
+                conn.disconnect()
+                if (location != null) {
+                    Log.d(TAG, "Meting封面: ${location.take(60)}")
+                    return@withContext location
+                }
+                ""
+            } catch (e: Exception) {
+                Log.e(TAG, "fetchAlbumCover error", e)
+                ""
+            }
+        }
 
     // ---------- 获取歌词 ----------
     suspend fun getLyric(id: String): LyricResult =

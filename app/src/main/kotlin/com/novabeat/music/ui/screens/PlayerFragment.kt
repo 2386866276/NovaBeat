@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,6 +65,21 @@ class PlayerFragment : Fragment() {
         view.findViewById<MaterialButton>(R.id.btnNext).setOnClickListener { playerService?.playNext() }
         view.findViewById<MaterialButton>(R.id.btnPlayPause).setOnClickListener {
             playerService?.togglePlayPause()
+        }
+
+        // 分享按钮 — 显示文字而非真正跳转
+        view.findViewById<MaterialButton>(R.id.btnShareMain).setOnClickListener {
+            val state = playerService?.playbackState?.value
+            val song = state?.currentSong
+            if (song != null) {
+                val shareText = "我在 NovaBeat 听「${song.title}」- ${song.artist}，一起来听吧！"
+                val clipboard = requireContext().getSystemService(android.content.Context.CLIPBOARD_SERVICE)
+                        as android.content.ClipboardManager
+                clipboard.setPrimaryClip(android.content.ClipData.newPlainText("NovaBeat分享", shareText))
+                Toast.makeText(requireContext(), shareText, Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(requireContext(), "请先播放一首歌曲", Toast.LENGTH_SHORT).show()
+            }
         }
 
         view.findViewById<SeekBar>(R.id.seekBar).apply {

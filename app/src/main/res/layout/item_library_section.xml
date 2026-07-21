@@ -16,6 +16,18 @@
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"/>
 
+    <TextView
+        android:id="@+id/tvSectionEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="暂无内容"
+        android:textSize="13sp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="16dp"
+        android:gravity="center"
+        android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSectionSongs"
         android:layout_width="match_parent"

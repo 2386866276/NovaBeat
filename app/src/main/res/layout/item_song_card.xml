@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="120dp"
-    android:layout_height="120dp"
+    android:layout_height="160dp"
     android:layout_margin="8dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="4dp">
@@ -12,14 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
-        android:background="?attr/colorPrimaryContainer">
+        android:gravity="center">
 
         <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_music_note"
-            android:tint="?attr/colorPrimary"/>
+            android:id="@+id/ivSongCover"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_music_note"/>
 
         <TextView
             android:id="@+id/tvSongTitle"

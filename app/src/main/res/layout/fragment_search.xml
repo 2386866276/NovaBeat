@@ -37,6 +37,16 @@
             app:icon="@drawable/ic_search"
             app:iconGravity="textStart"/>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRecommend"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="推荐"
+            app:icon="@drawable/ic_recommend"
+            app:iconGravity="textStart"
+            android:layout_marginStart="8dp"/>
+
         <ImageButton
             android:id="@+id/btnClear"
             android:layout_width="40dp"
@@ -47,6 +57,76 @@
             android:contentDescription="清除"/>
 
     </LinearLayout>
+
+    <!-- 音源切换 -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroupSource"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSourceNetease"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="网易云"
+            android:checked="true"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSourceBilibili"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="B站"
+            app:chipIcon="@drawable/ic_bilibili"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSourceQQMusic"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QQ音乐"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSourceKuwo"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="酷我"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSourceKugou"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="酷狗"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSourceQishui"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="汽水"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSourceSpotify"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Spotify"
+            app:chipIcon="@drawable/ic_spotify"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSourceYouTubeMusic"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="YouTube Music"
+            app:chipIcon="@drawable/ic_youtube_music"/>
+
+    </com.google.android.material.chip.ChipGroup>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressSearch"

@@ -5,7 +5,14 @@ import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
 import com.novabeat.music.data.model.*
+import com.novabeat.music.data.remote.BilibiliApiService
+import com.novabeat.music.data.remote.KugouApiService
+import com.novabeat.music.data.remote.KuwoApiService
 import com.novabeat.music.data.remote.NeteaseApiService
+import com.novabeat.music.data.remote.QQMusicApiService
+import com.novabeat.music.data.remote.QishuiApiService
+import com.novabeat.music.data.remote.SpotifyApiService
+import com.novabeat.music.data.remote.YouTubeMusicApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,6 +25,13 @@ class MusicRepository(private val context: Context) {
     }
 
     private val apiService = NeteaseApiService()
+    private val biliApi = BilibiliApiService()
+    private val qqMusicApi = QQMusicApiService()
+    private val kuwoApi = KuwoApiService()
+    private val kugouApi = KugouApiService()
+    private val qishuiApi = QishuiApiService()
+    private val spotifyApi = SpotifyApiService()
+    private val youtubeMusicApi = YouTubeMusicApiService()
 
     // ---------- 本地音乐扫描 ----------
     fun scanLocalMusic(): Flow<List<Song>> = flow {
@@ -97,6 +111,12 @@ class MusicRepository(private val context: Context) {
         return service.getMusicUrl(songId).url
     }
 
+    // ---------- 获取专辑封面 ----------
+    suspend fun fetchAlbumCover(songId: String, cookie: String = ""): String {
+        val service = if (cookie.isNotBlank()) apiService.withCookie(cookie) else apiService
+        return service.fetchAlbumCover(songId)
+    }
+
     // ---------- 获取歌词 ----------
     suspend fun fetchLyric(songId: String, cookie: String = ""): LyricResult {
         val service = if (cookie.isNotBlank()) apiService.withCookie(cookie) else apiService
@@ -112,4 +132,103 @@ class MusicRepository(private val context: Context) {
         Playlist("recent", "最近播放", "", isSystem = true, description = "最近收听的歌曲"),
         Playlist("netease_hot", "网易云热歌", "", isSystem = true, description = "网易云音乐热门歌曲")
     )
+
+    // ---------- B站搜索 ----------
+    suspend fun searchBilibili(keyword: String, biliCookie: String = ""): List<Song> {
+        val service = if (biliCookie.isNotBlank()) biliApi.withCookie(biliCookie) else biliApi
+        return service.searchMusic(keyword).map { it.toSong() }
+    }
+
+    // ---------- B站播放链接 ----------
+    suspend fun resolveBilibiliUrl(songId: String, biliCookie: String = ""): String {
+        // songId 格式: bili_BVxxx
+        val bvid = songId.removePrefix("bili_")
+        val service = if (biliCookie.isNotBlank()) biliApi.withCookie(biliCookie) else biliApi
+        return service.getPlayUrl(bvid)
+    }
+
+    // ---------- QQ音乐搜索 ----------
+    suspend fun searchQQMusic(keyword: String, cookie: String = ""): List<Song> {
+        val service = if (cookie.isNotBlank()) qqMusicApi.withCookie(cookie) else qqMusicApi
+        return service.searchMusic(keyword).map { it.toSong() }
+    }
+
+    // ---------- QQ音乐播放链接 ----------
+    suspend fun resolveQQMusicUrl(songId: String, cookie: String = ""): String {
+        val songmid = songId.removePrefix("qqmusic_")
+        val service = if (cookie.isNotBlank()) qqMusicApi.withCookie(cookie) else qqMusicApi
+        return service.getPlayUrl(songmid)
+    }
+
+    // ---------- 酷我音乐搜索 ----------
+    suspend fun searchKuwo(keyword: String, cookie: String = ""): List<Song> {
+        val service = if (cookie.isNotBlank()) kuwoApi.withCookie(cookie) else kuwoApi
+        return service.searchMusic(keyword).map { it.toSong() }
+    }
+
+    // ---------- 酷我音乐播放链接 ----------
+    suspend fun resolveKuwoUrl(songId: String, cookie: String = ""): String {
+        val rid = songId.removePrefix("kuwo_")
+        val service = if (cookie.isNotBlank()) kuwoApi.withCookie(cookie) else kuwoApi
+        return service.getPlayUrl(rid)
+    }
+
+    // ---------- 酷狗音乐搜索 ----------
+    suspend fun searchKugou(keyword: String, cookie: String = ""): List<Song> {
+        val service = if (cookie.isNotBlank()) kugouApi.withCookie(cookie) else kugouApi
+        return service.searchMusic(keyword).map { it.toSong() }
+    }
+
+    // ---------- 酷狗音乐播放链接 ----------
+    suspend fun resolveKugouUrl(songId: String, cookie: String = ""): String {
+        val hash = songId.removePrefix("kugou_")
+        val service = if (cookie.isNotBlank()) kugouApi.withCookie(cookie) else kugouApi
+        return service.getPlayUrl(hash)
+    }
+
+    // ---------- 汽水音乐搜索 ----------
+    suspend fun searchQishui(keyword: String, cookie: String = ""): List<Song> {
+        val service = if (cookie.isNotBlank()) qishuiApi.withCookie(cookie) else qishuiApi
+        return service.searchMusic(keyword).map { it.toSong() }
+    }
+
+    // ---------- 汽水音乐播放链接 ----------
+    suspend fun resolveQishuiUrl(songId: String, cookie: String = ""): String {
+        val id = songId.removePrefix("qishui_")
+        val service = if (cookie.isNotBlank()) qishuiApi.withCookie(cookie) else qishuiApi
+        return service.getPlayUrl(id)
+    }
+
+    // ---------- Spotify 搜索 ----------
+    suspend fun searchSpotify(keyword: String, token: String = ""): List<Song> {
+        val service = if (token.isNotBlank()) spotifyApi.withCookie(token) else spotifyApi
+        return service.searchMusic(keyword).map { it.toSong() }
+    }
+
+    // ---------- Spotify 播放链接 ----------
+    suspend fun resolveSpotifyUrl(songId: String, token: String = ""): String {
+        val trackId = songId.removePrefix("spotify_")
+        val service = if (token.isNotBlank()) spotifyApi.withCookie(token) else spotifyApi
+        return service.getPlayUrl(trackId)
+    }
+
+    // ---------- YouTube Music 搜索 ----------
+    suspend fun searchYouTubeMusic(
+        keyword: String,
+        officialApiKey: String = "",
+        cookie: String = ""
+    ): List<Song> {
+        val service = youtubeMusicApi.withCredentials(officialApiKey, cookie)
+        return service.searchMusic(keyword).map { it.toSong() }
+    }
+
+    // ---------- YouTube Music 播放链接 ----------
+    suspend fun resolveYouTubeMusicUrl(
+        songId: String,
+        officialApiKey: String = "",
+        cookie: String = ""
+    ): String {
+        val videoId = songId.removePrefix("youtube_")
+        return youtubeMusicApi.withCredentials(officialApiKey, cookie).getPlayUrl(videoId)
+    }
 }

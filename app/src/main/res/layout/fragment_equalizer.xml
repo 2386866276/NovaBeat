@@ -23,36 +23,43 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipDefault"
+            style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="默认"/>
+            android:text="默认"
+            android:checked="true"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipPop"
+            style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="流行"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipRock"
+            style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="摇滚"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipClassical"
+            style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="古典"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipElectronic"
+            style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="电子"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipJazz"
+            style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="爵士"/>

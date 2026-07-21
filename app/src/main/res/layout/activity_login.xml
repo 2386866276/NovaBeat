@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- 顶部栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBackLogin"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:icon="@android:drawable/ic_media_previous"
+            app:iconSize="24dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="第三方登录"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <View
+            android:layout_width="48dp"
+            android:layout_height="48dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvLoginHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="登录后可解锁VIP歌曲播放权限"
+        android:textSize="14sp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"
+        android:visibility="visible"/>
+
+    <!-- QQ登录 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLoginQQ"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="QQ登录"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- 微信登录 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLoginWeChat"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="微信登录"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- 微博登录 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLoginWeibo"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="微博登录"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- GitHub登录 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLoginGitHub"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="GitHub登录"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- 网易云音乐登录 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLoginNetease"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="网易云音乐登录"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- QQ音乐登录 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLoginQQMusic"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="QQ音乐登录"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- 哔哩哔哩登录（真实登录） -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLoginBilibili"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="哔哩哔哩登录"
+        android:layout_marginBottom="12dp"
+        app:backgroundTint="#FB7299"/>
+
+    <!-- 酷我音乐登录 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLoginKuwo"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="酷我音乐登录"
+        android:layout_marginBottom="12dp"
+        app:backgroundTint="#FFA500"/>
+
+    <!-- 酷狗音乐登录 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLoginKugou"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="酷狗音乐登录"
+        android:layout_marginBottom="12dp"
+        app:backgroundTint="#2CA2F9"/>
+
+    <!-- 汽水音乐登录 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLoginQishui"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="汽水音乐登录"
+        android:layout_marginBottom="12dp"
+        app:backgroundTint="#FF0A5C"/>
+
+    <!-- 分隔线 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        android:layout_marginVertical="4dp"/>
+
+    <!-- 邮箱登录 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLoginEmail"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="邮箱登录"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- 邮箱登录输入区 -->
+    <LinearLayout
+        android:id="@+id/emailLoginContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginBottom="12dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="邮箱地址"
+            android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="密码"
+            app:endIconMode="password_toggle">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmailPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEmailConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="确认登录"
+            android:layout_marginTop="8dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEmailRegister"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="注册新账号"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loginProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminate="true"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="* 登录后可解锁VIP会员歌曲播放\n* 登录信息仅存储在本地，不会上传"
+        android:textSize="12sp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

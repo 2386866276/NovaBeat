@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- 顶部返回栏 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBack"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:icon="@drawable/ic_skip_previous"
+                app:iconSize="24dp"
+                app:iconGravity="textStart"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="正在播放"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <View
+                android:layout_width="48dp"
+                android:layout_height="48dp"/>
+        </LinearLayout>
+
+        <!-- 专辑封面 -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_gravity="center_horizontal"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="12dp"
+            android:layout_marginBottom="24dp">
+
+            <ImageView
+                android:id="@+id/ivDetailCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_music_note"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 歌曲信息 -->
+        <TextView
+            android:id="@+id/tvDetailTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/tvDetailArtist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="?android:attr/textColorSecondary"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- 操作按钮行 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="8dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFavorite"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:icon="@android:drawable/btn_star_big_off"
+                app:iconSize="24dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDownload"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:icon="@drawable/ic_download"
+                app:iconSize="24dp"
+                app:iconTint="?attr/colorPrimary"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDetailPlay"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:icon="@drawable/ic_play"
+                app:iconSize="36dp"
+                app:iconTint="?attr/colorPrimary"
+                android:layout_marginHorizontal="16dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShare"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="分享"
+                android:minWidth="72dp"
+                app:icon="@drawable/ic_share_new"
+                app:iconGravity="textStart"
+                app:iconSize="20dp"/>
+
+        </LinearLayout>
+
+        <!-- 分享文案显示区 -->
+        <TextView
+            android:id="@+id/tvShareText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="?attr/colorPrimary"
+            android:gravity="center"
+            android:padding="12dp"
+            android:background="@drawable/share_text_bg"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"/>
+
+        <!-- 进度条 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="4dp">
+
+            <TextView
+                android:id="@+id/tvCurrentPosDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0:00"
+                android:textSize="12sp"/>
+
+            <SeekBar
+                android:id="@+id/seekBarDetail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="8dp"/>
+
+            <com.novabeat.music.ui.views.WaveSeekBar
+                android:id="@+id/waveSeekBar"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="8dp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tvDurationDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0:00"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <!-- 波浪进度条切换 -->
+        <CheckBox
+            android:id="@+id/cbWaveProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="波浪进度条"
+            android:textSize="12sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- 倍速控制 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="倍速"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/speedSlider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="12dp"
+                android:valueFrom="0.5"
+                android:valueTo="2.0"
+                android:stepSize="0.1"/>
+
+            <TextView
+                android:id="@+id/tvSpeed"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="1.0x"
+                android:textSize="14sp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <!-- 音频效果 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="音频效果"
+                android:textSize="12sp"
+                android:textColor="?android:attr/textColorSecondary"
+                android:layout_marginBottom="4dp"/>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupAudioEffect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipEffectNone"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="原声"
+                    android:checked="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipEffectVocal"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="去伴奏"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipEffectEthereal"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="空灵感"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipEffectBass"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="低音增强"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipEffectStudio"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="录音棚"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipEffectConcert"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="演唱会"/>
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </LinearLayout>
+
+        <!-- 歌词区域 -->
+        <LinearLayout
+            android:id="@+id/lyricsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone">
+
+            <!-- 歌词动画效果选择 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="歌词动画效果"
+                android:textSize="12sp"
+                android:textColor="?android:attr/textColorSecondary"
+                android:layout_marginBottom="4dp"/>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupLyricStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipLyricScroll"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="滚动"
+                    android:checked="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipLyricFade"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="淡入淡出"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipLyricSlide"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="滑入"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipLyricZoom"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="缩放"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipLyricKaraoke"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="卡拉OK"/>
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <ScrollView
+                android:id="@+id/lyricsScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="8dp"
+                android:fillViewport="true">
+
+                <TextView
+                    android:id="@+id/tvLyrics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:lineSpacingExtra="8dp"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="加载歌词中..."/>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

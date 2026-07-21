@@ -181,6 +181,27 @@
 
     </LinearLayout>
 
+    <!-- 分享和下载按钮行 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShareMain"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="分享"
+            android:textSize="13sp"
+            app:icon="@drawable/ic_share_new"
+            app:iconGravity="textStart"
+            app:iconSize="18dp"/>
+
+    </LinearLayout>
+
     <!-- 播放队列 -->
     <TextView
         android:layout_width="match_parent"

@@ -1,26 +1,31 @@
-# Gradle
+# Gradle build output
 .gradle/
 build/
 app/build/
+**/build/
+/local.properties
+
+# AndroidIDE / TLGradle temp files
+.acside/
+.backup/
+.kotlin/
 
 # IDE
 .idea/
 *.iml
 
-# Kotlin
-.kotlin/
+# Signing
+*.jks
+*.keystore
+keystore.properties
 
-# Local configuration
-local.properties
-
-# Android
-*.apk
-*.ap_
-*.aab
-
-# Log files
+# Logs
 *.log
+crash_log.txt
 
-# OS
+# OS files
 .DS_Store
 Thumbs.db
+
+# Gradle wrapper backup
+gradle/wrapper/gradle-wrapper.jar.bak

@@ -9,11 +9,14 @@ import android.content.Intent
 import android.media.audiofx.Equalizer
 import android.os.Binder
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import androidx.core.app.NotificationCompat
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackParameters
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
@@ -37,6 +40,7 @@ class PlayerService : Service() {
     private val binder = PlayerBinder()
     private lateinit var exoPlayer: ExoPlayer
     private lateinit var mediaSession: MediaSession
+    private val handler = Handler(Looper.getMainLooper())
 
     private val _playbackState = MutableStateFlow(PlaybackState())
     val playbackState: StateFlow<PlaybackState> = _playbackState
@@ -44,18 +48,35 @@ class PlayerService : Service() {
     private val queue = mutableListOf<Song>()
     private var currentIndex = -1
     private var currentSong: Song? = null
+    private var favorites = mutableSetOf<String>()
 
     internal var equalizer: Equalizer? = null
         private set
 
     val eqPresets = mapOf(
         "默认" to listOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f),
-        "流行" to listOf(2f, 3f, 4f, 1f, -1f, -2f, 0f, 1f, 2f, 2f),
+        "流行" to listOf(-1f, 2f, 4f, 3f, 0f, -1f, -1f, 0f, 1f, 2f),
         "摇滚" to listOf(4f, 3f, -1f, -2f, -2f, -1f, 1f, 3f, 4f, 4f),
         "古典" to listOf(3f, 2f, 0f, -1f, -2f, -1f, 0f, 2f, 3f, 3f),
         "电子" to listOf(3f, 2f, 1f, -1f, -2f, -1f, 1f, 3f, 4f, 4f),
         "爵士" to listOf(2f, 1f, 1f, -1f, -2f, -2f, -1f, 0f, 2f, 3f)
     )
+
+    private var currentPreset = "默认"
+    private var currentSpeed = 1.0f
+
+    private val progressRunnable = object : Runnable {
+        override fun run() {
+            if (this@PlayerService::exoPlayer.isInitialized) {
+                val pos = exoPlayer.currentPosition
+                val dur = exoPlayer.duration
+                updateState {
+                    copy(currentPositionMs = pos, durationMs = if (dur > 0) dur else durationMs)
+                }
+                handler.postDelayed(this, 500)
+            }
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -94,47 +115,52 @@ class PlayerService : Service() {
                     android.util.Log.d(TAG, "播放状态变化: $playbackState")
                     when (playbackState) {
                         Player.STATE_ENDED -> playNext()
-                        Player.STATE_READY -> {}
+                        Player.STATE_READY -> {
+                            initEqualizer()
+                            updateState { copy(isPlaying = exoPlayer.isPlaying) }
+                        }
                     }
                 }
                 override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                     currentSong = currentSongFromQueue(exoPlayer.currentMediaItemIndex)
-                    updateState { copy(currentSong = currentSong, currentIndex = exoPlayer.currentMediaItemIndex) }
+                    updateState {
+                        copy(currentSong = currentSong,
+                             currentIndex = exoPlayer.currentMediaItemIndex,
+                             durationMs = exoPlayer.duration.coerceAtLeast(0))
+                    }
                 }
                 override fun onIsPlayingChanged(isPlaying: Boolean) {
                     updateState { copy(isPlaying = isPlaying) }
+                    if (isPlaying) {
+                        handler.post(progressRunnable)
+                    }
                 }
             })
 
             mediaSession = MediaSession.Builder(this, exoPlayer).build()
             android.util.Log.d(TAG, "MediaSession创建成功")
-            initEqualizer()
         } catch (e: Exception) {
             android.util.Log.e(TAG, "初始化播放器失败", e)
         }
     }
 
     fun getAudioSessionId(): Int {
-        // 尝试多种方式获取音频会话ID
         return try {
-            // 方法1: 反射获取 audioSessionId 字段
             val field = exoPlayer.javaClass.getDeclaredField("audioSessionId")
             field.isAccessible = true
             val sessionId = field.getInt(exoPlayer)
             android.util.Log.d(TAG, "通过反射获取音频会话ID: $sessionId")
             sessionId
         } catch (e1: Exception) {
-            android.util.Log.w(TAG, "反射获取audioSessionId失败: ${e1.message}")
             try {
-                // 方法2: 尝试其他可能的字段名
                 val field = exoPlayer.javaClass.getDeclaredField("mAudioSessionId")
                 field.isAccessible = true
                 val sessionId = field.getInt(exoPlayer)
                 android.util.Log.d(TAG, "通过mAudioSessionId字段获取: $sessionId")
                 sessionId
             } catch (e2: Exception) {
-                android.util.Log.w(TAG, "所有反射方法都失败，返回默认值")
-                C.AUDIO_SESSION_ID_UNSET
+                android.util.Log.w(TAG, "反射获取音频会话ID失败，使用全局会话")
+                0
             }
         }
     }
@@ -144,15 +170,17 @@ class PlayerService : Service() {
         try {
             val sessionId = getAudioSessionId()
             android.util.Log.d(TAG, "音频会话ID: $sessionId")
-            if (sessionId > 0 && sessionId != C.AUDIO_SESSION_ID_UNSET) {
-                equalizer?.release()
+            equalizer?.release()
+            equalizer = null
+            if (sessionId > 0) {
                 equalizer = Equalizer(0, sessionId).apply {
                     enabled = true
                     android.util.Log.d(TAG, "均衡器已启用, 频段数: $numberOfBands")
                 }
+                applyPreset(currentPreset)
                 android.util.Log.d(TAG, "均衡器初始化成功")
             } else {
-                android.util.Log.w(TAG, "音频会话ID无效 ($sessionId)，等待播放时初始化")
+                android.util.Log.w(TAG, "音频会话ID无效 ($sessionId)")
             }
         } catch (e: Exception) {
             android.util.Log.e(TAG, "均衡器初始化失败", e)
@@ -161,20 +189,39 @@ class PlayerService : Service() {
 
     fun setEqualizerBand(index: Int, value: Float) {
         try {
-            equalizer?.setBandLevel(index.toShort(), (value * 50).toInt().coerceIn(-100, 100).toShort())
-        } catch (e: Exception) { android.util.Log.e("PlayerService", "EQ set failed", e) }
+            equalizer?.let { eq ->
+                val minLevel = eq.bandLevelRange[0]
+                val maxLevel = eq.bandLevelRange[1]
+                val level = (value * 100).toInt().toShort().coerceIn(minLevel, maxLevel)
+                eq.setBandLevel(index.toShort(), level)
+                android.util.Log.d(TAG, "设置频段 $index: ${value}dB -> level=$level")
+            }
+        } catch (e: Exception) {
+            android.util.Log.e(TAG, "EQ set failed", e)
+        }
     }
 
     fun applyPreset(name: String) {
-        eqPresets[name]?.let { bands -> bands.forEachIndexed { i, v -> setEqualizerBand(i, v) } }
+        currentPreset = name
+        android.util.Log.d(TAG, "应用预设: $name")
+        eqPresets[name]?.let { bands ->
+            bands.forEachIndexed { i, v -> setEqualizerBand(i, v) }
+        }
     }
+
+    fun getCurrentPreset(): String = currentPreset
+
+    fun setPlaybackSpeed(speed: Float) {
+        currentSpeed = speed
+        exoPlayer.playbackParameters = PlaybackParameters(speed)
+        android.util.Log.d(TAG, "设置播放速度: $speed")
+    }
+
+    fun getPlaybackSpeed(): Float = currentSpeed
 
     fun setQueue(songs: List<Song>, startIndex: Int = 0) {
         android.util.Log.d(TAG, "设置播放队列，歌曲数量: ${songs.size}")
-        if (songs.isEmpty()) {
-            android.util.Log.w(TAG, "播放队列为空")
-            return
-        }
+        if (songs.isEmpty()) return
         queue.clear()
         queue.addAll(songs)
         currentIndex = startIndex.coerceIn(songs.indices)
@@ -188,14 +235,11 @@ class PlayerService : Service() {
             copy(queue = songs, currentIndex = currentIndex,
                 currentSong = currentSong, durationMs = currentSong?.durationMs ?: 0)
         }
-        android.util.Log.d(TAG, "播放队列设置完成，当前歌曲: ${currentSong?.title}")
     }
 
     fun playSong(song: Song) {
         android.util.Log.d(TAG, "播放歌曲: ${song.title} - ${song.artist}")
         android.util.Log.d(TAG, "歌曲URL: ${song.url}")
-        android.util.Log.d(TAG, "歌曲ID: ${song.id}")
-        
         val idx = queue.indexOfFirst { it.id == song.id }
         val newIndex = if (idx >= 0) idx else { queue.add(song); queue.size - 1 }
         exoPlayer.setMediaItems(
@@ -210,14 +254,6 @@ class PlayerService : Service() {
             copy(currentSong = song, currentIndex = newIndex, isPlaying = true,
                 queue = queue.toList(), durationMs = song.durationMs)
         }
-        android.util.Log.d(TAG, "播放命令已发送")
-        
-        // 延迟初始化均衡器（需要等 ExoPlayer 准备好音频会话）
-        android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-            initEqualizer()
-            // 通知 UI 更新
-            _playbackState.value = _playbackState.value.copy()
-        }, 500)
     }
 
     fun togglePlayPause() {
@@ -246,6 +282,25 @@ class PlayerService : Service() {
                 isPlaying = true, durationMs = currentSong?.durationMs ?: 0)
         }
     }
+
+    fun getQueue(): List<Song> = queue.toList()
+
+    fun playFromQueue(index: Int) {
+        if (index in queue.indices) playIndex(index)
+    }
+
+    fun toggleFavorite(songId: String): Boolean {
+        return if (favorites.contains(songId)) {
+            favorites.remove(songId)
+            false
+        } else {
+            favorites.add(songId)
+            true
+        }
+    }
+
+    fun isFavorite(songId: String): Boolean = favorites.contains(songId)
+    fun getFavorites(): List<Song> = queue.filter { favorites.contains(it.id) }
 
     private fun currentSongFromQueue(index: Int): Song? = queue.getOrNull(index)
 
@@ -288,9 +343,7 @@ class PlayerService : Service() {
         try {
             startForeground(NOTIFICATION_ID, buildNotification(currentSong))
         } catch (e: Exception) {
-            android.util.Log.e("PlayerService", "startForeground failed", e)
-            // 如果前台服务启动失败，尝试不带通知启动
-            // 但这样在Android 12+可能会被系统停止
+            android.util.Log.e(TAG, "startForeground failed", e)
         }
         when (intent?.action) {
             ACTION_PLAY_PAUSE -> togglePlayPause()
@@ -309,8 +362,13 @@ class PlayerService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        exoPlayer.release()
-        mediaSession.release()
+        handler.removeCallbacks(progressRunnable)
+        if (this::exoPlayer.isInitialized) {
+            exoPlayer.release()
+        }
+        if (this::mediaSession.isInitialized) {
+            mediaSession.release()
+        }
         equalizer?.release()
     }
 }

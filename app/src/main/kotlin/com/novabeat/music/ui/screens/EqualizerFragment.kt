@@ -5,7 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +18,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.novabeat.music.R
 import com.novabeat.music.service.PlayerService
 
 class EqualizerFragment : Fragment() {
-    
+
     companion object {
         private const val TAG = "EqualizerFragment"
     }
@@ -28,20 +30,17 @@ class EqualizerFragment : Fragment() {
     private var playerService: PlayerService? = null
     private var bound = false
     private var rootView: View? = null
+    private val handler = Handler(Looper.getMainLooper())
+    private var eqRetryCount = 0
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
-            android.util.Log.d(TAG, "服务已连接")
+            Log.d(TAG, "服务已连接")
             playerService = (binder as PlayerService.PlayerBinder).getService()
             bound = true
-            // 服务就绪后再初始化 UI
-            rootView?.let { 
-                android.util.Log.d(TAG, "初始化均衡器UI")
-                initUI(it) 
-            }
+            rootView?.let { initUI(it) }
         }
         override fun onServiceDisconnected(name: ComponentName?) {
-            android.util.Log.d(TAG, "服务断开连接")
             bound = false
             playerService = null
         }
@@ -55,15 +54,13 @@ class EqualizerFragment : Fragment() {
 
     private fun startService() {
         context?.let { ctx ->
-            val intent = Intent(ctx, PlayerService::class.java)
-            ctx.startService(intent)
+            ctx.startService(Intent(ctx, PlayerService::class.java))
         }
     }
 
     private fun bindService() {
         context?.let { ctx ->
-            val intent = Intent(ctx, PlayerService::class.java)
-            ctx.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+            ctx.bindService(Intent(ctx, PlayerService::class.java), connection, Context.BIND_AUTO_CREATE)
         }
     }
 
@@ -76,19 +73,15 @@ class EqualizerFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // 如果服务已经连接，立即初始化 UI
         if (bound && playerService != null) {
             initUI(view)
         }
-        // 否则等待 onServiceConnected 回调
     }
 
     private fun initUI(view: View) {
-        if (!isAdded) {
-            android.util.Log.w(TAG, "Fragment未附加到Activity，跳过UI初始化")
-            return
-        }
-        android.util.Log.d(TAG, "初始化均衡器UI")
+        if (!isAdded) return
+        Log.d(TAG, "初始化均衡器UI")
+
         val seekBars = listOf(
             view.findViewById<SeekBar>(R.id.eqBand0),
             view.findViewById<SeekBar>(R.id.eqBand1),
@@ -124,31 +117,51 @@ class EqualizerFragment : Fragment() {
         )
 
         val presetLabels = listOf("默认", "流行", "摇滚", "古典", "电子", "爵士")
+
+        // 检查均衡器是否可用
         val hasEqualizer = playerService?.equalizer != null
-        android.util.Log.d(TAG, "均衡器支持: $hasEqualizer")
+        Log.d(TAG, "均衡器支持: $hasEqualizer, eqRetryCount: $eqRetryCount")
+
+        if (!hasEqualizer && eqRetryCount < 5) {
+            // 均衡器可能还没初始化，延迟重试
+            eqRetryCount++
+            Log.d(TAG, "均衡器未就绪，延迟重试 ($eqRetryCount/5)")
+            handler.postDelayed({ rootView?.let { initUI(it) } }, 1000)
+            // 显示等待提示
+            if (eqRetryCount == 1) {
+                context?.let { ctx ->
+                    Toast.makeText(ctx, "正在初始化均衡器，请先播放一首歌曲...", Toast.LENGTH_SHORT).show()
+                }
+            }
+            return
+        }
+
         if (!hasEqualizer) {
-            android.util.Log.w(TAG, "设备不支持均衡器")
+            Log.w(TAG, "均衡器不可用")
             context?.let { ctx ->
-                Toast.makeText(ctx, "当前设备不支持均衡器", Toast.LENGTH_SHORT).show()
+                Toast.makeText(ctx, "请先播放一首歌曲以激活均衡器", Toast.LENGTH_LONG).show()
             }
         }
+
+        // 预设按钮
         presetChips.forEachIndexed { i, chip ->
             chip.isEnabled = hasEqualizer
             chip.setOnClickListener {
-                android.util.Log.d(TAG, "应用预设: ${presetLabels[i]}")
+                Log.d(TAG, "应用预设: ${presetLabels[i]}")
                 playerService?.applyPreset(presetLabels[i])
                 updateAllSeekBars(seekBars, valueLabels, presetLabels[i])
             }
         }
 
+        // 频段滑块
         seekBars.forEachIndexed { i, sb ->
             sb.isEnabled = hasEqualizer
             sb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     val value = (progress - 50) / 10f
                     valueLabels[i].text = "%+.1f dB".format(value)
-                    if (fromUser) {
-                        android.util.Log.d(TAG, "调整频段 $i: $value dB")
+                    if (fromUser && hasEqualizer) {
+                        Log.d(TAG, "调整频段 $i: $value dB")
                         playerService?.setEqualizerBand(i, value)
                     }
                 }
@@ -159,13 +172,25 @@ class EqualizerFragment : Fragment() {
             valueLabels[i].text = "0.0 dB"
         }
 
+        // 重置按钮
         view.findViewById<MaterialButton>(R.id.btnResetEq).isEnabled = hasEqualizer
         view.findViewById<MaterialButton>(R.id.btnResetEq).setOnClickListener {
-            android.util.Log.d(TAG, "重置均衡器")
+            Log.d(TAG, "重置均衡器")
             updateAllSeekBars(seekBars, valueLabels, "默认")
             playerService?.applyPreset("默认")
         }
-        android.util.Log.d(TAG, "均衡器UI初始化完成")
+
+        // 如果有当前预设，应用到UI
+        val currentPreset = playerService?.getCurrentPreset() ?: "默认"
+        if (currentPreset != "默认") {
+            updateAllSeekBars(seekBars, valueLabels, currentPreset)
+            val idx = presetLabels.indexOf(currentPreset)
+            if (idx >= 0) presetChips[idx].isChecked = true
+        } else {
+            presetChips[0].isChecked = true
+        }
+
+        Log.d(TAG, "均衡器UI初始化完成")
     }
 
     private fun updateAllSeekBars(seekBars: List<SeekBar>, labels: List<TextView>, presetName: String) {
@@ -178,6 +203,7 @@ class EqualizerFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        handler.removeCallbacksAndMessages(null)
         rootView = null
     }
 
